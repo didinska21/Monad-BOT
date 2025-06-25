@@ -4,8 +4,6 @@ const axios = require("axios");
 const readline = require("readline");
 const fs = require("fs");
 
-displayHeader();
-
 class AprioriStaking {
   constructor() {
     this.RPC_URL = "https://testnet-rpc.monad.xyz/";

@@ -1,10 +1,5 @@
 # Monad-BOT
-
-**Monad-BOT** adalah bot terminal bergaya cyberpunk futuristik yang berjalan di jaringan **Monad Testnet**. Bot ini menampilkan animasi loading interaktif, ASCII banner keren, progress bar, dan dukungan multi-wallet melalui private key.
-
----
-
-## Cara Install & Menjalankan Monad-BOT
+menjalankan Monad-BOT
 
 ### 1. Clone Repository
 
@@ -59,21 +54,9 @@ node main.js
 ```
 
 ### Fitur Saat Berjalan:
-- ASCII title gaya cyberpunk
-- Spinner animasi `| / - \`
-- Progress bar realtime
-- Timestamp di setiap langkah
-- Simulasi error + auto-retry
-- Efek glitch karakter
-- Bell ðŸ”” terminal saat ready
+- apriori
+- izumi
+- rubic
+- magma
 
 ---
-
-## âš ï¸ Keamanan
-
-- **JANGAN** commit `privateKeys.json` ke repository publik.
-- Tambahkan ke `.gitignore`:
-
-```bash
-echo "privateKeys.json" >> .gitignore
-```

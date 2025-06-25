@@ -8,15 +8,17 @@ const scripts = {
   apriori: "./scripts/AprioriStaking.js",
 };
 
-const availableScripts = Object.keys(scripts).map((key) => ({
-  title: key.charAt(0).toUpperCase() + key.slice(1) + " Script",
-  value: key,
-}));
-
-availableScripts.push({ title: "Exit", value: "exit" });
+const availableScripts = [
+  { title: "Rubic Script", value: "rubic" },
+  { title: "Magma Script", value: "magma" },
+  { title: "Izumi Script", value: "izumi" },
+  { title: "Apriori Script", value: "apriori" },
+  { title: "▶ Run All Scripts", value: "all" }, // ✅ Tambahan
+  { title: "Exit", value: "exit" },
+];
 
 async function run() {
-  await displayHeader(); // TUNGGU hingga animasi header selesai
+  await displayHeader();
 
   const { script } = await prompts({
     type: "select",
@@ -30,8 +32,16 @@ async function run() {
     process.exit(0);
   }
 
-  console.log(`Running ${script.charAt(0).toUpperCase() + script.slice(1)}...`);
-  require(scripts[script]);
+  if (script === "all") {
+    console.log("\n🚀 Running all scripts sequentially...\n".green);
+    for (const key of ["rubic", "magma", "izumi", "apriori"]) {
+      console.log(`\n=== Starting ${key.toUpperCase()} ===`.cyan.bold);
+      require(scripts[key]); // panggil masing-masing script
+    }
+  } else {
+    console.log(`Running ${script.charAt(0).toUpperCase() + script.slice(1)}...`);
+    require(scripts[script]);
+  }
 }
 
 run().catch((error) => console.error("Error occurred:", error));

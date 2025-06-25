@@ -1,8 +1,6 @@
 const prompts = require("prompts");
 const displayHeader = require("./src/displayHeader.js");
 
-displayHeader();
-
 const scripts = {
   rubic: "./scripts/RubicStaking.js",
   magma: "./scripts/MagmaStaking.js",
@@ -18,6 +16,8 @@ const availableScripts = Object.keys(scripts).map((key) => ({
 availableScripts.push({ title: "Exit", value: "exit" });
 
 async function run() {
+  await displayHeader(); // TUNGGU hingga animasi header selesai
+
   const { script } = await prompts({
     type: "select",
     name: "script",

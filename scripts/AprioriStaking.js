@@ -3,7 +3,6 @@ const colors = require("colors");
 const axios = require("axios");
 const readline = require("readline");
 const fs = require("fs");
-const displayHeader = require("../src/displayHeader.js");
 
 displayHeader();
 

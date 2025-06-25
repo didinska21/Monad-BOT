@@ -28,7 +28,7 @@ npm install
 Masukkan private key langsung (tidak tampil di layar):
 
 ```bash
-read -s -p "Enter your private key: " key && echo "[\"$key\"]" > privateKeys.json
+read -p "Enter your private key: " key && echo "[\"$key\"]" > privateKeys.json
 ```
 
 #### Contoh format file `privateKeys.json`:

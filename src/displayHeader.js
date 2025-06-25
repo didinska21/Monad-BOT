@@ -1,14 +1,15 @@
 const figlet = require("figlet");
 require("colors");
-// const player = require("play-sound")(); // aktifkan jika mau suara
 
 function displayHeader() {
-  process.stdout.write("\x1Bc");
-  console.log(
-    figlet.textSync("MONAD BOT", { font: "Cyberlarge" }).cyan
-  );
-  console.log("═".repeat(80).magenta);
-  startLoadingSequence();
+  return new Promise((resolve) => {
+    process.stdout.write("\x1Bc");
+    console.log(
+      figlet.textSync("MONAD BOT", { font: "Cyberlarge" }).cyan
+    );
+    console.log("═".repeat(80).magenta);
+    startLoadingSequence(resolve); // kirim callback resolve
+  });
 }
 
 const steps = [
@@ -22,29 +23,30 @@ const steps = [
 let currentProgress = 0;
 const progressStep = Math.floor(100 / steps.length);
 
-function startLoadingSequence() {
+function startLoadingSequence(finalCallback) {
   let totalDelay = 0;
+
   steps.forEach((step, i) => {
     totalDelay += 1200;
     setTimeout(() => {
-      runStepWithRetry(step.text, progressStep, step.errorChance, i === steps.length - 1);
+      runStepWithRetry(step.text, progressStep, step.errorChance, i === steps.length - 1, finalCallback);
     }, totalDelay);
   });
 }
 
-function runStepWithRetry(text, progressStep, errorChance, isFinal) {
+function runStepWithRetry(text, progressStep, errorChance, isFinal, callback) {
   const shouldFail = Math.random() < errorChance;
 
   if (shouldFail) {
     animateStep(`ERROR: ${text}`, 0, false, true, () => {
       setTimeout(() => {
         animateStep(`Retrying: ${text}`, 0, false, false, () => {
-          animateStep(text, progressStep, isFinal, false);
+          animateStep(text, progressStep, isFinal, false, callback);
         });
       }, 1000);
     });
   } else {
-    animateStep(text, progressStep, isFinal, false);
+    animateStep(text, progressStep, isFinal, false, callback);
   }
 }
 
@@ -72,18 +74,16 @@ function animateStep(text, stepProgress, isFinal, isError, callback) {
     if (final) {
       console.log(`\r✔ ${line}`.green);
       console.log(bar.green);
-      console.log("═".repeat(80).magenta + "\n" + "\x07"); // Bell
-
-      // Optional: sound effect
-      // player.play('ready.mp3', err => { if (err) console.log("No sound.") });
+      console.log("═".repeat(80).magenta + "\n" + "\x07");
+      if (callback) callback(); // resolve() dipanggil
     } else if (!isError) {
       console.log(`\r✔ ${line}`.brightCyan);
       console.log(bar.yellow);
+      if (callback && isFinal) callback();
     } else {
       console.log(`\r✖ ${line}`.red);
+      if (callback && isFinal) callback();
     }
-
-    if (callback) callback();
   }, 1200);
 }
 
